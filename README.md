@@ -10,4 +10,10 @@ Angela Jackson
 
 #### Links and Resources
 
+[05 Jan 2022 / day 1](url)
+
+* [JavaScript Array Contains: A Step-By-Step Guide](https://careerkarma.com/blog/javascript-array-contains/)
+
 ##### Reflections and Comments
+
+* Day 1: 

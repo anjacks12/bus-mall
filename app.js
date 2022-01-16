@@ -1,8 +1,11 @@
 'use strict';
+
 // global variables
 const images = document.querySelector('section');
 
 let itemsArray = [];
+let counter = 0;
+let maxClicks =4; //needs to be changed to 25
 // constructor function to create objects
 function Items(name,fileExtension = 'jpg') {
   this.views = 0;
@@ -43,14 +46,47 @@ function renderItems() {
   let item1 = randomItem();
   let item2 = randomItem();
   let item3 = randomItem();
-  for (let i = 0; i < itemsArray.length; i++) {
-    // need to display 3 different items on page
-    //let image1 = document.getElementById('image1');
-    image1.src = itemsArray[item1].src;
-    //let image2 = document.getElementById('image2');
-    image2.src = itemsArray[item2].src;
-    //let image3 = document.getElementById('image3');
-    image3.src = itemsArray[item3].src;
+  // set conditions so item1 !== item2 !== item3
+  while (item1 === item2 || item2 === item3) {
+    item2 = randomItem();
   }
+
+  // need to display 3 different items on page
+  let image1 = document.getElementById('item1');
+  image1.src = itemsArray[item1].src;
+  image1.alt = itemsArray[item1].name;
+  let image2 = document.getElementById('item2');
+  image2.src = itemsArray[item2].src;
+  image2.alt = itemsArray[item2].name;
+  let image3 = document.getElementById('item3');
+  image3.src = itemsArray[item3].src;
+  image3.alt = itemsArray[item3].name;
+  //counting how many times the items were viewed
+  itemsArray[item1].views++;
+  itemsArray[item2].views++;
+  itemsArray[item3].views++;
 }
+
+function handleLikes(event) {
+  console.log(event.target.alt);
+}
+console.log(itemsArray);
+
 renderItems();
+
+// add eventListener to images
+images.addEventListener('click',handleLikes);
+
+
+/*
+//create an array with random numbers to prevent same items from showing up?
+let shuffledArray = [];
+for (let i = 0; i < itemsArray.length; i++) {
+  // run random numbers
+  let num1 = randomItem();
+  //push random numbers up to shuffledArray
+  shuffledArray.push(num1);
+  //use includes() method to check if random number is already there; if not then push to array; if already there then get another number?
+}
+//console.log(shuffledArray);
+*/
