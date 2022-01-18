@@ -21,4 +21,4 @@ Angela Jackson
 ###### Reflections and Comments
 
 * Day 1: I didn't get very far on this lab; Hopefully I'll get a chance to review this weekend and work on it more
-* Day 2: 
+* Day 2: Worked on lab some more; Got help from Sheyna on how to get results to render after voting was done; Got help from Andres in class with the code challenge replit that helped me set up the random item generation

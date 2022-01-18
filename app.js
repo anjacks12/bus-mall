@@ -23,30 +23,41 @@ function randomItem() {
   return Math.floor(Math.random() * (itemsArray.length));
 }
 
+
+
 // use random number to get images to appear randomly
+// got help from Andres from class with the replit example in class
 function renderItems() {
-  let item1 = randomItem();
-  let item2 = randomItem();
-  let item3 = randomItem();
-  // set conditions so item1 !== item2 !== item3
-  // do i need includes() ?
-  while (item1 === item2) {
-    item2 = randomItem();
+  for (let i = 0; i < 5; i++) {
+    let randomNumberArray = [];
+    while (randomNumberArray.length < 19) {
+      let item = randomItem();
+      if (!randomNumberArray.includes(item)) {
+        randomNumberArray.push(item);
+      }
+    }
+    for (let i = 0; i < randomNumberArray.length + 2; i++) {
+      let item1 = randomNumberArray.shift();
+      let item2 = randomNumberArray.shift();
+      let item3 = randomNumberArray.shift();
+
+      // // need to display 3 different items on page
+      let image1 = document.getElementById('item1');
+      image1.src = itemsArray[item1].src;
+      image1.alt = itemsArray[item1].name;
+      let image2 = document.getElementById('item2');
+      image2.src = itemsArray[item2].src;
+      image2.alt = itemsArray[item2].name;
+      let image3 = document.getElementById('item3');
+      image3.src = itemsArray[item3].src;
+      image3.alt = itemsArray[item3].name;
+
+      //counting how many times the items were viewed
+      itemsArray[item1].views++;
+      itemsArray[item2].views++;
+      itemsArray[item3].views++;
+    }
   }
-  // need to display 3 different items on page
-  let image1 = document.getElementById('item1');
-  image1.src = itemsArray[item1].src;
-  image1.alt = itemsArray[item1].name;
-  let image2 = document.getElementById('item2');
-  image2.src = itemsArray[item2].src;
-  image2.alt = itemsArray[item2].name;
-  let image3 = document.getElementById('item3');
-  image3.src = itemsArray[item3].src;
-  image3.alt = itemsArray[item3].name;
-  //counting how many times the items were viewed
-  itemsArray[item1].views++;
-  itemsArray[item2].views++;
-  itemsArray[item3].views++;
 }
 
 //event handler for items
@@ -61,13 +72,24 @@ function handleLikes(event) {
   console.log(itemsArray);
   if (counter === maxClicks) {
     images.removeEventListener('click', handleLikes);
+    results.className = 'view-results';
+  } else {
+    renderItems();
   }
-  renderItems();
 }
 
 //event handler for results
-function handleResults(event) {
-  
+//got help from Sheyna on how to render results when voting done
+function handleResults() {
+  if (counter === maxClicks) {
+    let ul = document.createElement('ul');
+    results.appendChild(ul);
+    for (let i = 0; i < itemsArray.length; i++) {
+      let li = document.createElement('li');
+      li.textContent = `${itemsArray[i].name} had ${itemsArray[i].likes} votes, and was seen ${itemsArray[i].views} times`;
+      ul.appendChild(li);
+    }
+  }
 }
 
 new Items('bag');
@@ -96,17 +118,4 @@ renderItems();
 images.addEventListener('click', handleLikes);
 
 // add eventListener for results
-results.addEventListener('click',handleResults);
-
-/*
-//create an array with random numbers to prevent same items from showing up?
-let shuffledArray = [];
-for (let i = 0; i < itemsArray.length; i++) {
-  // run random numbers
-  let num1 = randomItem();
-  //push random numbers up to shuffledArray
-  shuffledArray.push(num1);
-  //use includes() method to check if random number is already there; if not then push to array; if already there then get another number?
-}
-//console.log(shuffledArray);
-*/
+results.addEventListener('click', handleResults);
