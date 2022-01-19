@@ -6,7 +6,7 @@ const results = document.getElementById('results');
 
 let itemsArray = [];
 let counter = 0;
-let maxClicks = 25; //needs to be changed to 25
+let maxClicks = 4; //needs to be changed to 25
 // array to hold 6 random items for display
 let randomNumberArray = [];
 
@@ -56,6 +56,67 @@ function renderItems() {
   itemsArray[item1].views++;
   itemsArray[item2].views++;
   itemsArray[item3].views++;
+
+  // chart to show results after 25 clicks have been done
+  // for (let i = 0; i < itemsArray.length; i++) {
+  //   let itemNames = [];
+  //   let itemViews = [];
+  //   let itemLikes = [];
+
+  //   itemNames.push(itemsArray[i].name);
+  //   console.log(itemNames);
+  //}
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+  ];
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First Dataset',
+      data: [65, 59, 80, 81, 56, 55, 40],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
 }
 
 //event handler for items
@@ -69,23 +130,9 @@ function handleLikes(event) {
   }
   if (counter === maxClicks) {
     images.removeEventListener('click', handleLikes);
-    results.className = 'view-results';
+    //results.className = 'view-results';
   } else {
     renderItems();
-  }
-}
-
-//event handler for results
-//got help from Sheyna on how to render results when voting done
-function handleResults() {
-  if (counter === maxClicks) {
-    let ul = document.createElement('ul');
-    results.appendChild(ul);
-    for (let i = 0; i < itemsArray.length; i++) {
-      let li = document.createElement('li');
-      li.textContent = `${itemsArray[i].name} had ${itemsArray[i].likes} votes, and was seen ${itemsArray[i].views} times`;
-      ul.appendChild(li);
-    }
   }
 }
 
@@ -113,6 +160,3 @@ renderItems();
 
 // add eventListener to images
 images.addEventListener('click', handleLikes);
-
-// add eventListener for results
-results.addEventListener('click', handleResults);
