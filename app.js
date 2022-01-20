@@ -57,28 +57,66 @@ function renderItems() {
   itemsArray[item2].views++;
   itemsArray[item3].views++;
 
-  // chart to show results after 25 clicks have been done
-  // for (let i = 0; i < itemsArray.length; i++) {
-  //   let itemNames = [];
-  //   let itemViews = [];
-  //   let itemLikes = [];
+}
 
-  //   itemNames.push(itemsArray[i].name);
-  //   console.log(itemNames);
-  //}
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
+//event handler for items
+function handleLikes(event) {
+  counter++;
+  for (let i = 0; i < itemsArray.length; i++) {
+    if (event.target.alt === itemsArray[i].name) {
+      itemsArray[i].likes++;
+      break;
+    }
+  }
+  if (counter === maxClicks) {
+    images.removeEventListener('click', handleLikes);
+    //results.className = 'view-results';
+    renderResults();
+  } else {
+    renderItems();
+  }
+}
+
+function renderResults() {
+  // chart to show results after 25 clicks have been done
+  let itemNames = [];
+  let itemViews = [];
+  let itemLikes = [];
+
+  for (let i = 0; i < itemsArray.length; i++) {
+    itemNames.push(itemsArray[i].name);
+    itemViews.push(itemsArray[i].views);
+    itemLikes.push(itemsArray[i].likes);
+  }
+  console.log(itemNames, 'views', itemViews, 'likes', itemLikes);
   const data = {
-    labels: labels,
+    labels: itemNames,
     datasets: [{
-      label: 'My First Dataset',
-      data: [65, 59, 80, 81, 56, 55, 40],
+      label: 'No. of views',
+      data: itemViews,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    },
+    {
+      label: 'No. of likes',
+      data: itemLikes,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',
@@ -117,23 +155,6 @@ function renderItems() {
     document.getElementById('myChart'),
     config
   );
-}
-
-//event handler for items
-function handleLikes(event) {
-  counter++;
-  for (let i = 0; i < itemsArray.length; i++) {
-    if (event.target.alt === itemsArray[i].name) {
-      itemsArray[i].likes++;
-      break;
-    }
-  }
-  if (counter === maxClicks) {
-    images.removeEventListener('click', handleLikes);
-    //results.className = 'view-results';
-  } else {
-    renderItems();
-  }
 }
 
 new Items('bag');
