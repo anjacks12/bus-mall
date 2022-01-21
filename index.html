@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>BusMall</title>
-  <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Fredericka+the+Great&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
 
   <main>
-    <div id="logo">logo</div>
+    <div id="logo">
+      <img src="img/bus.png" width="100px" height="100px">
+    </div>
     <div id="title">BusMall</div>
-    <div id="results">View Results</div>
+    <div id="text">
+      <p>Hello! Thank you for participating in our survey at BusMall. You will be presented with three different items at a time. To complete this survey, please select which item out of the three you like best. After your selection, another set of three items will appear. Please select again. At the end of the survey, the items you liked the best will be displayed in a chart below. </p>
+    </div>
+
     <section id="images">
       <img id="item1">
       <img id="item2">
       <img id="item3">
     </section>
-    <div id="text">
-      <p>Information about what BusMall is with instructions for the user? </p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias vitae eligendi hic amet architecto voluptatum numquam eum. Quis, ut. Beatae incidunt suscipit iusto reiciendis quo neque nam quas quidem vitae. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est exercitationem provident at nisi reiciendis, vel temporibus ullam reprehenderit vero molestiae sequi voluptatum maxime, quasi odio! Vero velit optio iste deserunt? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam sequi officiis perferendis, quaerat error, consectetur dolore temporibus ratione beatae magnam voluptas ex? Ullam eveniet dolore quo autem consectetur illum provident.</p>
+    <div class="results">
+      <canvas id="myChart"></canvas>
     </div>
   </main>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>
