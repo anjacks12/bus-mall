@@ -2,11 +2,11 @@
 
 // global variables
 const images = document.querySelector('section');
-const results = document.getElementById('results');
+//const results = document.getElementById('results');
 
 let itemsArray = [];
 let counter = 0;
-let maxClicks = 4; //needs to be changed to 25
+let maxClicks = 25; //needs to be changed to 25
 // array to hold 6 random items for display
 let randomNumberArray = [];
 
@@ -95,22 +95,10 @@ function renderResults() {
       label: 'No. of views',
       data: itemViews,
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 205, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(201, 203, 207, 0.2)'
+        'rgba(255, 205, 86, 0.4)',
       ],
       borderColor: [
         'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(54, 162, 235)',
-        'rgb(153, 102, 255)',
-        'rgb(201, 203, 207)'
       ],
       borderWidth: 1
     },
@@ -118,22 +106,10 @@ function renderResults() {
       label: 'No. of likes',
       data: itemLikes,
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 205, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(201, 203, 207, 0.2)'
+        'rgba(153, 102, 255, 0.6)'
       ],
       borderColor: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(54, 162, 235)',
-        'rgb(153, 102, 255)',
-        'rgb(201, 203, 207)'
+        'rgb(0, 0, 0)'
       ],
       borderWidth: 1
     }]
@@ -145,9 +121,34 @@ function renderResults() {
     options: {
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+        },
+      },
+      layout: {
+        padding: {
+          bottom: 10
         }
-      }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: 'Most Popular Items',
+          font: {
+            size: 20
+          }
+        },
+        legend: {
+          labels: {
+            font: {
+              size: 15
+            }
+          }
+        },
+        tooltip: {
+          yAlign: 'bottom',
+          displayColors: false,
+        },
+      },
     },
   };
 
