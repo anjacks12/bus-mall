@@ -6,7 +6,7 @@ const results = document.getElementById('results');
 
 let itemsArray = [];
 let counter = 0;
-let maxClicks = 4; //needs to be changed to 25
+let maxClicks = 25; //needs to be changed to 25
 
 // constructor function to create objects
 function Items(name, fileExtension = 'jpg') {
@@ -23,40 +23,37 @@ function randomItem() {
   return Math.floor(Math.random() * (itemsArray.length));
 }
 
-
-
 // use random number to get images to appear randomly
-// got help from Andres from class with the replit example in class
+// got help from Andres from class with the repl.it example in class
 function renderItems() {
-  for (let i = 0; i < 5; i++) {
-    let randomNumberArray = [];
-    while (randomNumberArray.length < 19) {
-      let item = randomItem();
-      if (!randomNumberArray.includes(item)) {
-        randomNumberArray.push(item);
-      }
+  let randomNumberArray = [];
+  while (randomNumberArray.length < 6) {
+    let item = randomItem();
+    if (!randomNumberArray.includes(item)) {
+      randomNumberArray.push(item);
     }
-    for (let i = 0; i < randomNumberArray.length + 2; i++) {
-      let item1 = randomNumberArray.shift();
-      let item2 = randomNumberArray.shift();
-      let item3 = randomNumberArray.shift();
+    console.log(randomNumberArray);
+  }
+  for (let i = 0; i < randomNumberArray.length; i++) {
+    let item1 = randomNumberArray.shift();
+    let item2 = randomNumberArray.shift();
+    let item3 = randomNumberArray.shift();
+    console.log('item1',item1,'item2',item2,'item3',item3);
+    // // need to display 3 different items on page
+    let image1 = document.getElementById('item1');
+    image1.src = itemsArray[item1].src;
+    image1.alt = itemsArray[item1].name;
+    let image2 = document.getElementById('item2');
+    image2.src = itemsArray[item2].src;
+    image2.alt = itemsArray[item2].name;
+    let image3 = document.getElementById('item3');
+    image3.src = itemsArray[item3].src;
+    image3.alt = itemsArray[item3].name;
 
-      // // need to display 3 different items on page
-      let image1 = document.getElementById('item1');
-      image1.src = itemsArray[item1].src;
-      image1.alt = itemsArray[item1].name;
-      let image2 = document.getElementById('item2');
-      image2.src = itemsArray[item2].src;
-      image2.alt = itemsArray[item2].name;
-      let image3 = document.getElementById('item3');
-      image3.src = itemsArray[item3].src;
-      image3.alt = itemsArray[item3].name;
-
-      //counting how many times the items were viewed
-      itemsArray[item1].views++;
-      itemsArray[item2].views++;
-      itemsArray[item3].views++;
-    }
+    //counting how many times the items were viewed
+    itemsArray[item1].views++;
+    itemsArray[item2].views++;
+    itemsArray[item3].views++;
   }
 }
 
@@ -69,7 +66,6 @@ function handleLikes(event) {
       break;
     }
   }
-  console.log(itemsArray);
   if (counter === maxClicks) {
     images.removeEventListener('click', handleLikes);
     results.className = 'view-results';
