@@ -80,7 +80,6 @@ function renderItems() {
   itemsArray[item1].views++;
   itemsArray[item2].views++;
   itemsArray[item3].views++;
-
 }
 
 //event handler for items
