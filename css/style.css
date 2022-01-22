@@ -96,14 +96,14 @@ div {
 }
 
 
-div.view-results#results {
+/* div.view-results#results {
   background-color: lemonchiffon;
   grid-column: 1 / 3;
   grid-row: 2 / 3;
   pointer-events: all;
-}
+} */
 
-li {
+/* li {
   grid-column: 1 / 3;
   grid-row: 2 / 3;
   pointer-events: all;
@@ -113,4 +113,4 @@ li {
   font-size: 1.25rem;
   min-height: 225px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
+} */
