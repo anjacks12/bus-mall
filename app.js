@@ -26,13 +26,13 @@ function randomItem() {
 // use random number to get images to appear randomly
 // got help from Andres from class with the repl.it example in class
 function renderItems() {
-  let randomNumberArray = [];
   while (randomNumberArray.length < 6) {
     let item = randomItem();
     if (!randomNumberArray.includes(item)) {
       randomNumberArray.push(item);
     }
-    console.log(randomNumberArray);
+  }
+   console.log(randomNumberArray);
   }
   for (let i = 0; i < randomNumberArray.length; i++) {
     let item1 = randomNumberArray.shift();
