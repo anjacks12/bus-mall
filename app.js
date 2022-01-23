@@ -2,13 +2,11 @@
 
 // global variables
 const images = document.querySelector('section');
-//const results = document.getElementById('results');
+const results = document.getElementById('results');
 
 let itemsArray = [];
 let counter = 0;
 let maxClicks = 25; //needs to be changed to 25
-// array to hold 6 random items for display
-let randomNumberArray = [];
 
 // constructor function to create objects
 function Items(name, fileExtension = 'jpg') {
@@ -34,29 +32,29 @@ function renderItems() {
       randomNumberArray.push(item);
     }
   }
-  //console.log(randomNumberArray);
+   console.log(randomNumberArray);
+  }
+  for (let i = 0; i < randomNumberArray.length; i++) {
+    let item1 = randomNumberArray.shift();
+    let item2 = randomNumberArray.shift();
+    let item3 = randomNumberArray.shift();
+    console.log('item1',item1,'item2',item2,'item3',item3);
+    // // need to display 3 different items on page
+    let image1 = document.getElementById('item1');
+    image1.src = itemsArray[item1].src;
+    image1.alt = itemsArray[item1].name;
+    let image2 = document.getElementById('item2');
+    image2.src = itemsArray[item2].src;
+    image2.alt = itemsArray[item2].name;
+    let image3 = document.getElementById('item3');
+    image3.src = itemsArray[item3].src;
+    image3.alt = itemsArray[item3].name;
 
-  let item1 = randomNumberArray.shift();
-  let item2 = randomNumberArray.shift();
-  let item3 = randomNumberArray.shift();
-
-  //console.log('item1', item1, 'item2', item2, 'item3', item3);
-  // // need to display 3 different items on page
-  let image1 = document.getElementById('item1');
-  image1.src = itemsArray[item1].src;
-  image1.alt = itemsArray[item1].name;
-  let image2 = document.getElementById('item2');
-  image2.src = itemsArray[item2].src;
-  image2.alt = itemsArray[item2].name;
-  let image3 = document.getElementById('item3');
-  image3.src = itemsArray[item3].src;
-  image3.alt = itemsArray[item3].name;
-
-  //counting how many times the items were viewed
-  itemsArray[item1].views++;
-  itemsArray[item2].views++;
-  itemsArray[item3].views++;
-
+    //counting how many times the items were viewed
+    itemsArray[item1].views++;
+    itemsArray[item2].views++;
+    itemsArray[item3].views++;
+  }
 }
 
 //event handler for items
@@ -70,92 +68,24 @@ function handleLikes(event) {
   }
   if (counter === maxClicks) {
     images.removeEventListener('click', handleLikes);
-    //results.className = 'view-results';
-    renderResults();
+    results.className = 'view-results';
   } else {
     renderItems();
   }
 }
 
-function renderResults() {
-  // chart to show results after 25 clicks have been done
-  let itemNames = [];
-  let itemViews = [];
-  let itemLikes = [];
-
-  for (let i = 0; i < itemsArray.length; i++) {
-    itemNames.push(itemsArray[i].name);
-    itemViews.push(itemsArray[i].views);
-    itemLikes.push(itemsArray[i].likes);
+//event handler for results
+//got help from Sheyna on how to render results when voting done
+function handleResults() {
+  if (counter === maxClicks) {
+    let ul = document.createElement('ul');
+    results.appendChild(ul);
+    for (let i = 0; i < itemsArray.length; i++) {
+      let li = document.createElement('li');
+      li.textContent = `${itemsArray[i].name} had ${itemsArray[i].likes} votes, and was seen ${itemsArray[i].views} times`;
+      ul.appendChild(li);
+    }
   }
-  console.log(itemNames, 'views', itemViews, 'likes', itemLikes);
-  const data = {
-    labels: itemNames,
-    datasets: [{
-      label: 'No. of views',
-      data: itemViews,
-      backgroundColor: [
-        'rgba(255, 205, 86, 0.4)',
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-      ],
-      borderWidth: 1
-    },
-    {
-      label: 'No. of likes',
-      data: itemLikes,
-      backgroundColor: [
-        'rgba(153, 102, 255, 0.6)'
-      ],
-      borderColor: [
-        'rgb(0, 0, 0)'
-      ],
-      borderWidth: 1
-    }]
-  };
-
-  const config = {
-    type: 'bar',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      layout: {
-        padding: {
-          bottom: 10
-        }
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: 'Most Popular Items',
-          font: {
-            size: 20
-          }
-        },
-        legend: {
-          labels: {
-            font: {
-              size: 15
-            }
-          }
-        },
-        tooltip: {
-          yAlign: 'bottom',
-          displayColors: false,
-        },
-      },
-    },
-  };
-
-  const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-  );
 }
 
 new Items('bag');
@@ -182,3 +112,6 @@ renderItems();
 
 // add eventListener to images
 images.addEventListener('click', handleLikes);
+
+// add eventListener for results
+results.addEventListener('click', handleResults);
