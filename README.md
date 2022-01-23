@@ -18,10 +18,14 @@ Angela Jackson
 
 * [15 Jan 2022 / day 1](https://github.com/anjacks12/bus-mall/pull/1)
 * [17 Jan 2022 / day 2](https://github.com/anjacks12/bus-mall/pull/2)
+  * [22 Jan 2022](https://github.com/anjacks12/bus-mall/pull/6)
 * [20 Jan 2022 / day 3](https://github.com/anjacks12/bus-mall/pull/3)
+* [22 Jan 2022 / day 4](URL)
 
 ###### Reflections and Comments
 
 * Day 1: I didn't get very far on this lab; Hopefully I'll get a chance to review this weekend and work on it more
 * Day 2: Worked on lab some more; Got help from Sheyna on how to get results to render after voting was done; Got help from Andres in class with the code challenge replit that helped me set up the random item generation
 * Day 3: Finished adding the chart to the BusMall lab; I need to go back to Day 2 and make some fixes on that lab for resubmit
+* Day 4: I didn't finish the lab today and didn't make much headway either; I was able get the things stored but when pulling them out of storage, the number of likes and views didn't match up and I'm not sure why that is
+  * Day 4: I messed up on the pull request for the lab 11 resubmit so I had to create a dummy branch to store my code and resubmit to
