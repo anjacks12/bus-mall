@@ -18,6 +18,7 @@ function Items(name, fileExtension) {
   this.views = 0;
   this.likes = 0;
   this.name = name;
+  this.fileExtension = fileExtension;
   this.src = `img/${this.name}.${fileExtension}`;
 }
 
@@ -34,7 +35,23 @@ function storeItems(arr) {
   localStorage.setItem('stashItems', resultsData);
 }
 
-
+// create render function to show results onto page
+function renderData() {
+  let findData = localStorage.getItem('stashItems');
+  if (findData) {
+    let showData = JSON.parse(findData);
+    for (let order of showData) {
+      let views = order.views;
+      let likes = order.likes;
+      let name = order.name;
+      let fileExtension = order.fileExtension;
+      let src = order.src;
+      createItems(name, fileExtension, views, likes, src);
+    }
+  } else {
+    //not sure..
+  }
+}
 
 // generate random number from itemArray
 function randomItem() {
@@ -107,11 +124,12 @@ function renderResults() {
     itemLikes.push(itemsArray[i].likes);
   }
   //console.log(itemNames, 'views', itemViews, 'likes', itemLikes);
-  console.log('in renderResults',itemsArray);
+  //console.log('in renderResults',itemsArray);
   let resultsData = itemsArray;
   storeItems(resultsData);
-  console.log(localStorage);
-
+  //console.log(localStorage);
+  renderData();
+  console.log(itemsArray);
 
   // chart to show results after 25 clicks have been done
   const data = {
