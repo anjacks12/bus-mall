@@ -8,17 +8,33 @@ let itemsArray = [];
 let counter = 0;
 let maxClicks = 4; //needs to be changed to 25
 
+let resultsArray = [];
+
 // array to hold 6 random items for display
 let randomNumberArray = [];
 
 // constructor function to create objects
-function Items(name, fileExtension = 'jpg') {
+function Items(name, fileExtension) {
   this.views = 0;
   this.likes = 0;
   this.name = name;
   this.src = `img/${this.name}.${fileExtension}`;
-  itemsArray.push(this);
 }
+
+// create instances of objects (items)
+function createItems(name, fileExtension) {
+  let itemObject = new Items(name, fileExtension);
+  itemsArray.push(itemObject);
+}
+
+// create function to save new itemArray data; call in renderResults()?
+function storeItems(arr) {
+  // let stashItems = Key Name
+  let resultsData = JSON.stringify(arr);
+  localStorage.setItem('stashItems', resultsData);
+}
+
+
 
 // generate random number from itemArray
 function randomItem() {
@@ -77,10 +93,10 @@ function handleLikes(event) {
   } else {
     renderItems();
   }
+  //console.log('end eventHandler',itemsArray);
 }
 
 function renderResults() {
-  // chart to show results after 25 clicks have been done
   let itemNames = [];
   let itemViews = [];
   let itemLikes = [];
@@ -90,7 +106,14 @@ function renderResults() {
     itemViews.push(itemsArray[i].views);
     itemLikes.push(itemsArray[i].likes);
   }
-  console.log(itemNames, 'views', itemViews, 'likes', itemLikes);
+  //console.log(itemNames, 'views', itemViews, 'likes', itemLikes);
+  console.log('in renderResults',itemsArray);
+  let resultsData = itemsArray;
+  storeItems(resultsData);
+  console.log(localStorage);
+
+
+  // chart to show results after 25 clicks have been done
   const data = {
     labels: itemNames,
     datasets: [{
@@ -160,25 +183,45 @@ function renderResults() {
   );
 }
 
-new Items('bag');
-new Items('banana');
-new Items('bathroom');
-new Items('boots');
-new Items('breakfast');
-new Items('bubblegum');
-new Items('chair');
-new Items('cthulhu');
-new Items('dog-duck');
-new Items('dragon');
-new Items('pen');
-new Items('pet-sweep');
-new Items('scissors');
-new Items('shark');
-new Items('sweep', 'png');
-new Items('tauntaun');
-new Items('unicorn');
-new Items('water-can');
-new Items('wine-glass');
+createItems('bag','jpg');
+createItems('banana','jpg');
+createItems('bathroom','jpg');
+createItems('boots','jpg');
+createItems('breakfast','jpg');
+createItems('bubblegum','jpg');
+createItems('chair','jpg');
+createItems('cthulhu','jpg');
+createItems('dog-duck','jpg');
+createItems('dragon','jpg');
+createItems('pen','jpg');
+createItems('pet-sweep','jpg');
+createItems('scissors','jpg');
+createItems('shark','jpg');
+createItems('sweep', 'png');
+createItems('tauntaun','jpg');
+createItems('unicorn','jpg');
+createItems('water-can','jpg');
+createItems('wine-glass','jpg');
+
+// new Items('bag','jpg');
+// new Items('banana','jpg');
+// new Items('bathroom','jpg');
+// new Items('boots','jpg');
+// new Items('breakfast','jpg');
+// new Items('bubblegum','jpg');
+// new Items('chair','jpg');
+// new Items('cthulhu','jpg');
+// new Items('dog-duck','jpg');
+// new Items('dragon','jpg');
+// new Items('pen','jpg');
+// new Items('pet-sweep','jpg');
+// new Items('scissors','jpg');
+// new Items('shark','jpg');
+// new Items('sweep', 'png');
+// new Items('tauntaun','jpg');
+// new Items('unicorn','jpg');
+// new Items('water-can','jpg');
+// new Items('wine-glass','jpg');
 
 renderItems();
 
