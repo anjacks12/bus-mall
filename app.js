@@ -28,31 +28,6 @@ function createItems(name, fileExtension) {
   itemsArray.push(itemObject);
 }
 
-// create function to save new itemArray data; call in renderResults()?
-function storeItems(arr) {
-  // let stashItems = Key Name
-  let resultsData = JSON.stringify(arr);
-  localStorage.setItem('stashItems', resultsData);
-}
-
-// create render function to show results onto page
-function renderData() {
-  let findData = localStorage.getItem('stashItems');
-  if (findData) {
-    let showData = JSON.parse(findData);
-    for (let order of showData) {
-      let views = order.views;
-      let likes = order.likes;
-      let name = order.name;
-      let fileExtension = order.fileExtension;
-      let src = order.src;
-      createItems(name, fileExtension, views, likes, src);
-    }
-  } else {
-    //not sure..
-  }
-}
-
 // generate random number from itemArray
 function randomItem() {
   //min [0] and max is [18]
@@ -68,7 +43,6 @@ function renderItems() {
     if (!randomNumberArray.includes(item)) {
       randomNumberArray.push(item);
     }
-    //console.log(randomNumberArray);
   }
   for (let i = 0; i < randomNumberArray.length; i++) {
     let item1 = randomNumberArray.shift();
@@ -85,13 +59,11 @@ function renderItems() {
     let image3 = document.getElementById('item3');
     image3.src = itemsArray[item3].src;
     image3.alt = itemsArray[item3].name;
-
     //counting how many times the items were viewed
     itemsArray[item1].views++;
     itemsArray[item2].views++;
     itemsArray[item3].views++;
   }
-  //console.log(randomNumberArray);
 }
 
 //event handler for items
@@ -113,7 +85,42 @@ function handleLikes(event) {
   //console.log('end eventHandler',itemsArray);
 }
 
+
+// create function to save new itemArray data; call in renderResults()?
+function storeItems(arr) {
+  // let stashItems = Key Name
+  let resultsData = JSON.stringify(arr);
+  localStorage.setItem('stashItems', resultsData);
+  //console.log(resultsData);
+}
+
+
+// create render function to retrieve result data
+function renderData() {
+  let findData = localStorage.getItem('stashItems');
+  if (findData) {
+    let showData = JSON.parse(findData);
+    for (let order of showData) {
+      let views = order.views;
+      let likes = order.likes;
+      let name = order.name;
+      let fileExtension = order.fileExtension;
+      let src = order.src;
+      createItems(name, fileExtension, views, likes, src);
+      console.log(localStorage);
+    }
+    renderResults();
+  } else {
+    renderResults();
+  }
+}
+
+
 function renderResults() {
+  resultsArray.push(itemsArray);
+  //console.log(resultsArray);
+  storeItems(resultsArray);
+
   let itemNames = [];
   let itemViews = [];
   let itemLikes = [];
@@ -123,13 +130,6 @@ function renderResults() {
     itemViews.push(itemsArray[i].views);
     itemLikes.push(itemsArray[i].likes);
   }
-  //console.log(itemNames, 'views', itemViews, 'likes', itemLikes);
-  //console.log('in renderResults',itemsArray);
-  let resultsData = itemsArray;
-  storeItems(resultsData);
-  //console.log(localStorage);
-  renderData();
-  console.log(itemsArray);
 
   // chart to show results after 25 clicks have been done
   const data = {
@@ -220,26 +220,6 @@ createItems('tauntaun','jpg');
 createItems('unicorn','jpg');
 createItems('water-can','jpg');
 createItems('wine-glass','jpg');
-
-// new Items('bag','jpg');
-// new Items('banana','jpg');
-// new Items('bathroom','jpg');
-// new Items('boots','jpg');
-// new Items('breakfast','jpg');
-// new Items('bubblegum','jpg');
-// new Items('chair','jpg');
-// new Items('cthulhu','jpg');
-// new Items('dog-duck','jpg');
-// new Items('dragon','jpg');
-// new Items('pen','jpg');
-// new Items('pet-sweep','jpg');
-// new Items('scissors','jpg');
-// new Items('shark','jpg');
-// new Items('sweep', 'png');
-// new Items('tauntaun','jpg');
-// new Items('unicorn','jpg');
-// new Items('water-can','jpg');
-// new Items('wine-glass','jpg');
 
 renderItems();
 
