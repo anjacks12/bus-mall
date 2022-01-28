@@ -26,6 +26,7 @@ function Items(name, fileExtension) {
 function createItems(name, fileExtension) {
   let itemObject = new Items(name, fileExtension);
   itemsArray.push(itemObject);
+  renderData();
 }
 
 // generate random number from itemArray
@@ -88,18 +89,19 @@ function handleLikes(event) {
 
 // create function to save new itemArray data; call in renderResults()?
 function storeItems(arr) {
-  // let stashItems = Key Name
+  // let saveItems = Key Name
   let resultsData = JSON.stringify(arr);
-  localStorage.setItem('stashItems', resultsData);
-  //console.log(resultsData);
+  localStorage.setItem('saveItems', resultsData);
+  //console.log('resultsData',resultsData);
 }
 
 
 // create render function to retrieve result data
 function renderData() {
-  let findData = localStorage.getItem('stashItems');
+  //check to see if there is data in localStorage
+  let findData = localStorage.getItem('saveItems');
+  let showData = JSON.parse(findData);
   if (findData) {
-    let showData = JSON.parse(findData);
     for (let order of showData) {
       let views = order.views;
       let likes = order.likes;
@@ -107,17 +109,18 @@ function renderData() {
       let fileExtension = order.fileExtension;
       let src = order.src;
       createItems(name, fileExtension, views, likes, src);
-      console.log(localStorage);
+      console.log('showData',showData);
     }
-    renderResults();
+    //renderResults();
   } else {
-    renderResults();
+    //get initial result if no votes have been done before
+    initialResults();
   }
 }
 
 
 function renderResults() {
-  resultsArray.push(itemsArray);
+  resultsArray = itemsArray;
   //console.log(resultsArray);
   storeItems(resultsArray);
 
@@ -201,25 +204,27 @@ function renderResults() {
   );
 }
 
-createItems('bag','jpg');
-createItems('banana','jpg');
-createItems('bathroom','jpg');
-createItems('boots','jpg');
-createItems('breakfast','jpg');
-createItems('bubblegum','jpg');
-createItems('chair','jpg');
-createItems('cthulhu','jpg');
-createItems('dog-duck','jpg');
-createItems('dragon','jpg');
-createItems('pen','jpg');
-createItems('pet-sweep','jpg');
-createItems('scissors','jpg');
-createItems('shark','jpg');
-createItems('sweep', 'png');
-createItems('tauntaun','jpg');
-createItems('unicorn','jpg');
-createItems('water-can','jpg');
-createItems('wine-glass','jpg');
+function initialResults() {
+  createItems('bag','jpg');
+  createItems('banana','jpg');
+  createItems('bathroom','jpg');
+  createItems('boots','jpg');
+  createItems('breakfast','jpg');
+  createItems('bubblegum','jpg');
+  createItems('chair','jpg');
+  createItems('cthulhu','jpg');
+  createItems('dog-duck','jpg');
+  createItems('dragon','jpg');
+  createItems('pen','jpg');
+  createItems('pet-sweep','jpg');
+  createItems('scissors','jpg');
+  createItems('shark','jpg');
+  createItems('sweep', 'png');
+  createItems('tauntaun','jpg');
+  createItems('unicorn','jpg');
+  createItems('water-can','jpg');
+  createItems('wine-glass','jpg');
+}
 
 renderItems();
 
