@@ -14,19 +14,18 @@ let resultsArray = [];
 let randomNumberArray = [];
 
 // constructor function to create objects
-function Items(name, fileExtension) {
-  this.views = 0;
-  this.likes = 0;
+function Items(views, likes, name, fileExtension) {
+  this.views = views;
+  this.likes = likes;
   this.name = name;
   this.fileExtension = fileExtension;
   this.src = `img/${this.name}.${fileExtension}`;
 }
 
 // create instances of objects (items)
-function createItems(name, fileExtension) {
-  let itemObject = new Items(name, fileExtension);
+function createItems(views, likes, name, fileExtension) {
+  let itemObject = new Items(views, likes, name, fileExtension);
   itemsArray.push(itemObject);
-  renderData();
 }
 
 // generate random number from itemArray
@@ -38,7 +37,7 @@ function randomItem() {
 // use random number to get images to appear randomly
 // got help from Andres from class with the repl.it example in class
 function renderItems() {
-  //let randomNumberArray = [];
+  let randomNumberArray = [];
   while (randomNumberArray.length < 6) {
     let item = randomItem();
     if (!randomNumberArray.includes(item)) {
@@ -49,7 +48,6 @@ function renderItems() {
     let item1 = randomNumberArray.shift();
     let item2 = randomNumberArray.shift();
     let item3 = randomNumberArray.shift();
-    //console.log('item1',item1,'item2',item2,'item3',item3);
     // // need to display 3 different items on page
     let image1 = document.getElementById('item1');
     image1.src = itemsArray[item1].src;
@@ -78,7 +76,6 @@ function handleLikes(event) {
   }
   if (counter === maxClicks) {
     images.removeEventListener('click', handleLikes);
-    //results.className = 'view-results';
     renderResults();
   } else {
     renderItems();
@@ -108,14 +105,14 @@ function renderData() {
       let name = order.name;
       let fileExtension = order.fileExtension;
       let src = order.src;
-      createItems(name, fileExtension, views, likes, src);
-      console.log('showData',showData);
+      createItems(views, likes, name, fileExtension, src);
+      //console.log('showData',showData);
     }
-    //renderResults();
-  } else {
+  } if (!findData) {
     //get initial result if no votes have been done before
     initialResults();
   }
+  renderItems();
 }
 
 
@@ -205,28 +202,28 @@ function renderResults() {
 }
 
 function initialResults() {
-  createItems('bag','jpg');
-  createItems('banana','jpg');
-  createItems('bathroom','jpg');
-  createItems('boots','jpg');
-  createItems('breakfast','jpg');
-  createItems('bubblegum','jpg');
-  createItems('chair','jpg');
-  createItems('cthulhu','jpg');
-  createItems('dog-duck','jpg');
-  createItems('dragon','jpg');
-  createItems('pen','jpg');
-  createItems('pet-sweep','jpg');
-  createItems('scissors','jpg');
-  createItems('shark','jpg');
-  createItems('sweep', 'png');
-  createItems('tauntaun','jpg');
-  createItems('unicorn','jpg');
-  createItems('water-can','jpg');
-  createItems('wine-glass','jpg');
+  createItems(0,0,'bag','jpg');
+  createItems(0,0,'banana','jpg');
+  createItems(0,0,'bathroom','jpg');
+  createItems(0,0,'boots','jpg');
+  createItems(0,0,'breakfast','jpg');
+  createItems(0,0,'bubblegum','jpg');
+  createItems(0,0,'chair','jpg');
+  createItems(0,0,'cthulhu','jpg');
+  createItems(0,0,'dog-duck','jpg');
+  createItems(0,0,'dragon','jpg');
+  createItems(0,0,'pen','jpg');
+  createItems(0,0,'pet-sweep','jpg');
+  createItems(0,0,'scissors','jpg');
+  createItems(0,0,'shark','jpg');
+  createItems(0,0,'sweep', 'png');
+  createItems(0,0,'tauntaun','jpg');
+  createItems(0,0,'unicorn','jpg');
+  createItems(0,0,'water-can','jpg');
+  createItems(0,0,'wine-glass','jpg');
 }
 
-renderItems();
+renderData();
 
 // add eventListener to images
 images.addEventListener('click', handleLikes);
