@@ -1,20 +1,24 @@
 'use strict';
 
-// global variables
+/*          GLOBAL VARIABLES / CONSTANTS           */
+// window into the DOM where chart.js is rendered
 const images = document.querySelector('section');
-const results = document.getElementById('results');
-
+// array that holds all the created (objects) items from createItem();
 let itemsArray = [];
+// running count on how many clicks user makes
 let counter = 0;
-let maxClicks = 25; //needs to be changed to 25
-
+// maximum amount of clicks
+let maxClicks = 25;
+// array where results data retrieved from localStorage gets placed
 let resultsArray = [];
-
 // array to hold 6 random items for display
 let randomNumberArray = [];
 
+
+/*          FUNCTIONAL CODE / LOGIC          */
 // constructor function to create objects
 function Items(views, likes, name, fileExtension) {
+  // views and likes are not set to 0 so they can keep running total of each round of votes
   this.views = views;
   this.likes = likes;
   this.name = name;
@@ -22,31 +26,35 @@ function Items(views, likes, name, fileExtension) {
   this.src = `img/${this.name}.${fileExtension}`;
 }
 
-// create instances of objects (items)
+
+// creating instances of objects (items)
 function createItems(views, likes, name, fileExtension) {
   let itemObject = new Items(views, likes, name, fileExtension);
   itemsArray.push(itemObject);
 }
 
-// generate random number from itemArray
+
+// generate random number for renderItem();
 function randomItem() {
   //min [0] and max is [18]
   return Math.floor(Math.random() * (itemsArray.length));
 }
 
-// use random number to get images to appear randomly
+
+// generates 3 unique images to render on page
 // got help from Andres from class with the repl.it example in class
 function renderItems() {
-  //let randomNumberArray = [];
+  // create array of random number that are not the same
+  // set to < 9 to make sure at least half of the images get rendered equally on page
   while (randomNumberArray.length < 9) {
     let item = randomItem();
     if (!randomNumberArray.includes(item)) {
       randomNumberArray.push(item);
     }
   }
-  console.log(randomNumberArray);
+  // i < randomNumberArray.length - 6 to ensure the first three images render
   for (let i = 0; i < randomNumberArray.length - 6; i++) {
-    // need to display 3 different items on page
+    // assigned each of the 3 items an item number
     let item1 = randomNumberArray.shift();
     let image1 = document.getElementById('item1');
     image1.src = itemsArray[item1].src;
@@ -61,8 +69,8 @@ function renderItems() {
     let image3 = document.getElementById('item3');
     image3.src = itemsArray[item3].src;
     image3.alt = itemsArray[item3].name;
+
     //counting how many times the items were viewed
-    console.log('1',item1,'2',item2,'3',item3);
     itemsArray[item1].views++;
     itemsArray[item2].views++;
     itemsArray[item3].views++;
@@ -70,7 +78,7 @@ function renderItems() {
 }
 
 
-//event handler for items
+//event handler for items and number of likes they get
 function handleLikes(event) {
   counter++;
   for (let i = 0; i < itemsArray.length; i++) {
@@ -79,69 +87,74 @@ function handleLikes(event) {
       break;
     }
   }
+  // when the counter reaches maxClicks, the results render
   if (counter === maxClicks) {
     images.removeEventListener('click', handleLikes);
     renderResults();
   } else {
+    // random items keep rendering until counter === maxClicks
     renderItems();
   }
-  //console.log('end eventHandler',itemsArray);
 }
 
 
-// create function to save new itemArray data; call in renderResults()?
+// stores results of each voting round in localStorage
 function storeItems(arr) {
-  // let saveItems = Key Name
+  // KEY name is 'saveItems'
+  // stringifies objects to put into localStorage
   let resultsData = JSON.stringify(arr);
   localStorage.setItem('saveItems', resultsData);
-  //console.log('resultsData',resultsData);
 }
 
 
-// create render function to retrieve result data
+// retrieves previous voting results from localStorage
 function renderData() {
-  //check to see if there is data in localStorage
   let findData = localStorage.getItem('saveItems');
+  // "un-stringify" results from localStorage which turn into 'POJO' (plain old JS object)
   let showData = JSON.parse(findData);
+  //check to see if there is data in localStorage with if statement
   if (findData) {
+    // re-assemble properties of previous results
     for (let order of showData) {
       let views = order.views;
       let likes = order.likes;
       let name = order.name;
       let fileExtension = order.fileExtension;
       let src = order.src;
+      // POJOs get re-instantiated by going through createItems(); again
       createItems(views, likes, name, fileExtension, src);
-      //console.log('showData',showData);
     }
+    // if no previous results are found in localStorage, run page from the beginning (initial run)
   } if (!findData) {
-    //get initial result if no votes have been done before
+    // called to create the first instances of Items objects
     initialResults();
   }
   renderItems();
 }
 
 
+// render results on page after voting is done
 function renderResults() {
   resultsArray = itemsArray;
-  //console.log(resultsArray);
+  //store the voting results in localStorage via resultsArray
   storeItems(resultsArray);
-
+  // using 3 arrays to create a corresponding "list" for the chart to display results
   let itemNames = [];
   let itemViews = [];
   let itemLikes = [];
-
+  // iterate through the itemsArray to get the 3 data points needed to display in chart
   for (let i = 0; i < itemsArray.length; i++) {
     itemNames.push(itemsArray[i].name);
     itemViews.push(itemsArray[i].views);
     itemLikes.push(itemsArray[i].likes);
   }
 
-  // chart to show results after 25 clicks have been done
+  // chart.js renders bar chart with results of total views and likes
   const data = {
-    labels: itemNames,
+    labels: itemNames, // names of all the items
     datasets: [{
       label: 'No. of views',
-      data: itemViews,
+      data: itemViews, // total number of times the item was viewed
       backgroundColor: [
         'rgba(255, 205, 86, 0.4)',
       ],
@@ -152,7 +165,7 @@ function renderResults() {
     },
     {
       label: 'No. of likes',
-      data: itemLikes,
+      data: itemLikes, // total number of likes each item got
       backgroundColor: [
         'rgba(153, 102, 255, 0.6)'
       ],
@@ -162,7 +175,7 @@ function renderResults() {
       borderWidth: 1
     }]
   };
-
+  // options to change how the chart can look when rendered
   const config = {
     type: 'bar',
     data: data,
@@ -199,14 +212,17 @@ function renderResults() {
       },
     },
   };
-
+  // window into the DOM to get chart to render
   const myChart = new Chart(
     document.getElementById('myChart'),
     config
   );
 }
 
+/*   run when it is the very first time the user loads the page or clears localStorage  */
 function initialResults() {
+  // arguments set as (views, likes, name, fileExtension)
+  // views and likes values set to 0 since the page has nothing stored in localStorage
   createItems(0,0,'bag','jpg');
   createItems(0,0,'banana','jpg');
   createItems(0,0,'bathroom','jpg');
@@ -228,7 +244,8 @@ function initialResults() {
   createItems(0,0,'wine-glass','jpg');
 }
 
+/*  invokes the page to start when loaded   */
 renderData();
 
-// add eventListener to images
+// eventListener to change the images after each click
 images.addEventListener('click', handleLikes);
